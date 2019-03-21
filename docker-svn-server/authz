@@ -1,0 +1,8 @@
+[groups]
+allaccess = admin
+
+[/]
+@allaccess = rw
+
+[example-repo:/]
+admin = rw
