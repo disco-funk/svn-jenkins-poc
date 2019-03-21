@@ -5,7 +5,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[cancelProcessOnExternalsFail: true, credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'svn://svn-server/example-repo']], quietOperation: true, workspaceUpdater: [$class: 'UpdateUpdater']])            }
+                checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[cancelProcessOnExternalsFail: true, credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'svn://svn-server/example-repo']], quietOperation: true, workspaceUpdater: [$class: 'UpdateUpdater']])
+            }
         }
     }
 }
