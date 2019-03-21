@@ -1,0 +1,6 @@
+version: '3'
+services:
+  svn-server:
+    build: ./svn-server
+    ports:
+      - "3690:3690"
