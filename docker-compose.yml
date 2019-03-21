@@ -1,6 +1,11 @@
 version: '3'
 services:
   svn-server:
-    build: ./svn-server
+    build: docker-svn-server
     ports:
       - "3690:3690"
+  jenkins:
+    build: docker-jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
