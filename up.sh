@@ -15,5 +15,5 @@ svn checkout svn://localhost:3690/example-repo
 cp -r ../example-repo/ ./example-repo/
 cd example-repo
 svn add module*
-svn commit -m "Initial commit"
+svn commit --username admin --password admin -m "Initial commit"
 cd ../..

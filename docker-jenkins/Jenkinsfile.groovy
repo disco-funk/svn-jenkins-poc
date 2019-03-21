@@ -9,10 +9,20 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
-                sh 'ls -la'
-                dir("module1") {
-                    sh 'make'
+            parallel {
+                stage('Make Module 1') {
+                    steps {
+                        dir("module1") {
+                            sh 'make'
+                        }
+                    }
+                }
+                stage('Make Module 2') {
+                    steps {
+                        dir("module2") {
+                            sh 'make'
+                        }
+                    }
                 }
             }
         }

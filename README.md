@@ -9,6 +9,14 @@
 
 * Need to create pipeline in Jenkins manually
 
+New -> Pipeline -> example-pipeline
+
+Pipeline Definition from Git
+
+Repository URL: https://github.com/disco-funk
+
+Script Path: docker-jenkins/Jenkinsfile
+
 ### Configuration details:
 
 #### Jenkins:
