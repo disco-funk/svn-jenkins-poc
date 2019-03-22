@@ -1,4 +1,5 @@
-#!groovy
+#!/usr/bin/env groovy
+
 def tasks = [:]
 
 node {
@@ -7,10 +8,10 @@ node {
     }
 
     stage('Generate tasks') {
-        def changedDirs = getChangeSetDirectories()
-            for (String changedDir : changedDirs) {
-                tasks[changedDir] = {
-                stage ("Building" + changedDir) {
+        var changedDirs = getChangeSetDirectories()
+        for (String changedDir : changedDirs) {
+            tasks["Building ${changedDir}"] = {
+                stage("Building ${changedDir}") {
                     dir(changedDir) {
                         sh 'make'
                     }
@@ -18,6 +19,7 @@ node {
             }
         }
     }
+
     parallel tasks
 }
 
