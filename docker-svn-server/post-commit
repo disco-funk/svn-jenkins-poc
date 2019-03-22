@@ -1,0 +1,12 @@
+#!/bin/sh
+
+REPOS="$1"
+REV="$2"
+UUID=`/usr/bin/svnlook uuid $REPOS`
+URL=http://jenkins:8080/subversion/${UUID}/notifyCommit?rev=$REV
+/usr/bin/wget \
+  --header "Content-Type:text/plain;charset=UTF-8" \
+  --post-data "`/usr/bin/svnlook changed --revision $REV $REPOS`" \
+  --output-document "-" \
+  --timeout=2 \
+  $URL

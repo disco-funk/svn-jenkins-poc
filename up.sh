@@ -17,3 +17,6 @@ cd example-repo
 svn add module*
 svn commit --username admin --password admin -m "Initial commit"
 cd ../..
+
+docker cp docker-svn-server/post-commit svn-jenkins-poc_svn-server_1:/var/opt/svn/example-repo/hooks/post-commit
+docker exec -it svn-jenkins-poc_svn-server_1 chmod 755 /var/opt/svn/example-repo/hooks/post-commit
