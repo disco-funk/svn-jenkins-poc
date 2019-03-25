@@ -21,7 +21,7 @@ So, go into the Console Output of the first Build and look for a log output like
 
 ```Administrators can decide whether to approve or reject this signature```
 
-Click the link and Approve, you'll need to approve the following two methods to get the build to work.
+Click the link and then click the Approve button, you'll need to approve the following two methods to get the build to work (i.e. build another time manually after first approval, then go in logs again after second build and repeat approval process).
 ```
 method jenkins.scm.RunWithSCM getChangeSets
 method org.jenkinsci.plugins.workflow.support.steps.build.RunWrapper getRawBuild

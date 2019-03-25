@@ -1,18 +1,21 @@
 #!/usr/bin/env groovy
 
-def tasks = [:]
+def leafTasks = [:]
+def dependentTasks = [:]
+def changedDirs
+def dependencyTree = ["module1": "module-with-dependencies", "module2": "module-with-dependencies"]
 
 node {
     stage('Checkout') {
         checkout scm
     }
 
-    stage('Generate Tasks') {
-        def changedDirs = getChangeSetDirectories()
+    stage('Generate Parallel Build Tasks') {
+        changedDirs = getChangeSetDirectories()
         print "All changed modules: ${changedDirs}"
 
         for (String changedDir : changedDirs) {
-            tasks["Building ${changedDir}"] = {
+            leafTasks["Building ${changedDir}"] = {
                 stage("Building ${changedDir}") {
                     dir(changedDir) {
                         sh 'make'
@@ -22,7 +25,26 @@ node {
         }
     }
 
-    parallel tasks
+    parallel leafTasks
+
+    stage('Checking Dependent Modules') {
+        print "All dependent modules: ${dependencyTree}"
+
+        for (Map.Entry<String,String> dependentDir : dependencyTree.entrySet()) {
+            print "key : ${dependentDir.key}"
+            if(changedDirs.contains(dependentDir.key)) {
+                dependentTasks["Building ${dependentDir.value}"] = {
+                    stage("Building ${dependentDir.value}") {
+                        dir(dependentDir.value) {
+                            sh 'make'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    parallel dependentTasks
 }
 
 Set<String> getChangeSetDirectories() {
