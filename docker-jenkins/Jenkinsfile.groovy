@@ -7,9 +7,9 @@ node {
         checkout scm
     }
 
-    stage('Generate tasks') {
+    stage('Generate Tasks') {
         def changedDirs = getChangeSetDirectories()
-        print changedDirs
+        print "All changed modules: ${changedDirs}"
 
         for (String changedDir : changedDirs) {
             tasks["Building ${changedDir}"] = {
@@ -38,10 +38,10 @@ Set<String> getChangeSetDirectories() {
         }
     }
 
-    print affectedPaths
+    print "All affected paths in SVN changeSet: ${affectedPaths}"
 
     for (int i = 0; i < affectedPaths.size(); i++) {
-        if(affectedPaths[i].contains("/")) {
+        if (affectedPaths[i].contains("/")) {
             def split = affectedPaths[i].split("/")
             subdirectories.add(split[0])
         }

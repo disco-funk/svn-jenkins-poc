@@ -7,22 +7,27 @@
 ```
 ### Manual configuration steps after running:
 
-* Need to create pipeline in Jenkins manually
+You will need to create the pipeline in Jenkins manually, as follows:
 
-New Item -> Multibranch Pipeline -> example-pipeline
+* New Item -> Multibranch Pipeline -> example-pipeline
+* Branch Sources -> Add Source -> Subversion
+* Repository Base: ```svn://svn-server/example-repo```
+* Credentials -> Add -> example-pipeline -> username: ```admin``` password:```admin```
+* Select added credentials in dropdown
 
-Branch Sources -> Add Source -> Subversion
-Repository Base: svn://svn-server/example-repo
-Credentials -> Add -> example-pipeline -> username/pw: admin admin
-Select added credentials in dropdown
+Build will fail first time as Groovy methods need to be authorised in Jenkins sandbox (http://localhost:8080/scriptApproval/)
 
-Build will fail first time as Groovy methods need to be authorised in Jenkins sandbox:
-http://localhost:8080/scriptApproval/
-Approve signatures (top box):
+So, go into the Console Output of the first Build and look for a log output like:
+
+```Administrators can decide whether to approve or reject this signature```
+
+Click the link and Approve, you'll need to approve the following two methods to get the build to work.
 ```
 method jenkins.scm.RunWithSCM getChangeSets
 method org.jenkinsci.plugins.workflow.support.steps.build.RunWrapper getRawBuild
 ```
+
+---
 
 ### Configuration details:
 
@@ -42,6 +47,8 @@ URL (from within container): svn://svn-server:3690/example-repo
 
 URL (from host laptop): svn://localhost:3690/example-repo
 
+---
+
 ### Common commands
 
 Log in to shell inside SVN Server container:
@@ -59,4 +66,7 @@ Tail Jenkins logs:
 docker logs -f svn-jenkins-poc_jenkins_1
 ```
 
+Get SVN info:
+```
 svn info svn://svn-server:3690/example-repo
+```
