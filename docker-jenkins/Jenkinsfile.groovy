@@ -1,12 +1,13 @@
 #!/usr/bin/env groovy
 
+def dependencyTree = ["module1": "module-with-dependencies", "module2": "module-with-dependencies"]
 def leafTasks = [:]
 def dependentTasks = [:]
 def changedDirs
-def dependencyTree = ["module1": "module-with-dependencies", "module2": "module-with-dependencies"]
+Set<String> dependentSet = []
 
 node {
-    stage('Checkout') {
+    stage('Checkout from SVN') {
         checkout scm
     }
 
@@ -31,11 +32,19 @@ node {
         print "All dependent modules: ${dependencyTree}"
 
         for (Map.Entry<String,String> dependentDir : dependencyTree.entrySet()) {
-            print "key : ${dependentDir.key}"
+            print "Checking ${dependentDir.key} dependencies"
             if(changedDirs.contains(dependentDir.key)) {
-                dependentTasks["Building ${dependentDir.value}"] = {
-                    stage("Building ${dependentDir.value}") {
-                        dir(dependentDir.value) {
+                dependentSet.add(dependentDir.value)
+            }
+        }
+
+        if(dependentSet.size() == 0) {
+            println "No dependencies to rebuild"
+        } else {
+            for (String dependent : dependentSet) {
+                dependentTasks["Building ${dependent}"] = {
+                    stage("Building ${dependent}") {
+                        dir(dependent) {
                             sh 'make'
                         }
                     }
@@ -43,7 +52,7 @@ node {
             }
         }
     }
-    
+
     parallel dependentTasks
 }
 
