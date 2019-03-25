@@ -1,3 +1,6 @@
 .idea/
 *.iml
 checkedout/
+example-repo/trunk/module1/OSX
+example-repo/trunk/module2/OSX
+example-repo/trunk/module3/OSX
