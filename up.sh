@@ -14,8 +14,10 @@ cd checkedout
 svn checkout svn://localhost:3690/example-repo
 cp -r ../example-repo/ ./example-repo/
 cd example-repo
-svn add module*
+cp ../../docker-jenkins/Jenkinsfile.groovy trunk/Jenkinsfile
+svn add * --force
 svn commit --username admin --password admin -m "Initial commit"
+svn copy svn://localhost:3690/example-repo/trunk svn://localhost:3690/example-repo/branches/example-branch -m "Create example-branch"
 cd ../..
 
 docker cp docker-svn-server/post-commit svn-jenkins-poc_svn-server_1:/var/opt/svn/example-repo/hooks/post-commit

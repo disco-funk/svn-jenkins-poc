@@ -9,13 +9,20 @@
 
 * Need to create pipeline in Jenkins manually
 
-New -> Pipeline -> example-pipeline
+New Item -> Multibranch Pipeline -> example-pipeline
 
-Pipeline Definition from Git
+Branch Sources -> Add Source -> Subversion
+Repository Base: svn://svn-server/example-repo
+Credentials -> Add -> example-pipeline -> username/pw: admin admin
+Select added credentials in dropdown
 
-Repository URL: https://github.com/disco-funk
-
-Script Path: docker-jenkins/Jenkinsfile
+Build will fail first time as Groovy methods need to be authorised in Jenkins sandbox:
+http://localhost:8080/scriptApproval/
+Approve signatures (top box):
+```
+method jenkins.scm.RunWithSCM getChangeSets
+method org.jenkinsci.plugins.workflow.support.steps.build.RunWrapper getRawBuild
+```
 
 ### Configuration details:
 

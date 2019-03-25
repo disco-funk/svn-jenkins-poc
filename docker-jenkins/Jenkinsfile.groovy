@@ -4,11 +4,13 @@ def tasks = [:]
 
 node {
     stage('Checkout') {
-        checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[cancelProcessOnExternalsFail: true, credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'svn://svn-server/example-repo']], quietOperation: true, workspaceUpdater: [$class: 'UpdateUpdater']])
+        checkout scm
     }
 
     stage('Generate tasks') {
-        var changedDirs = getChangeSetDirectories()
+        def changedDirs = getChangeSetDirectories()
+        print changedDirs
+
         for (String changedDir : changedDirs) {
             tasks["Building ${changedDir}"] = {
                 stage("Building ${changedDir}") {
@@ -36,9 +38,13 @@ Set<String> getChangeSetDirectories() {
         }
     }
 
+    print affectedPaths
+
     for (int i = 0; i < affectedPaths.size(); i++) {
-        def split = affectedPaths[i].split("/")
-        subdirectories.add(split[1])
+        if(affectedPaths[i].contains("/")) {
+            def split = affectedPaths[i].split("/")
+            subdirectories.add(split[0])
+        }
     }
 
     return subdirectories
