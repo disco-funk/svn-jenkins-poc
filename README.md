@@ -5,6 +5,9 @@
 ```
 ./up.sh
 ```
+
+Remember to close down after you've done with ```./down.sh```
+
 ### Manual configuration steps after running:
 
 You will need to create the pipeline in Jenkins manually, as follows:
@@ -17,7 +20,7 @@ You will need to create the pipeline in Jenkins manually, as follows:
 
 Build will fail first time as Groovy methods need to be authorised in Jenkins sandbox (http://localhost:8080/scriptApproval/)
 
-So, go into the Console Output of the first Build and look for a log output like:
+So, go into the Console Output of the first trunk Build and look for a log output like:
 
 ```Administrators can decide whether to approve or reject this signature```
 
@@ -43,7 +46,7 @@ Username ```admin```
 
 Password ```admin```
 
-URL (from within container): svn://svn-server:3690/example-repo
+URL (from within container): svn://svn-server/example-repo
 
 URL (from host laptop): svn://localhost:3690/example-repo
 
